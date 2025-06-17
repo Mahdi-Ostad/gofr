@@ -49,7 +49,7 @@ func (l Level) String() string {
 }
 
 //nolint:mnd // Color codes are sent as numbers
-func (l Level) color() uint {
+func (l Level) Color() uint {
 	switch l {
 	case ERROR, FATAL:
 		return 160

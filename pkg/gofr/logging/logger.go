@@ -161,7 +161,7 @@ func (l *logger) prettyPrint(e *logEntry, out io.Writer) {
 
 	// Pretty printing if the message interface defines a method PrettyPrint else print the log message
 	// This decouples the logger implementation from its usage
-	fmt.Fprintf(out, "\u001B[38;5;%dm%s\u001B[0m [%s]", e.Level.color(), e.Level.String()[0:4], e.Time.Format(time.TimeOnly))
+	fmt.Fprintf(out, "\u001B[38;5;%dm%s\u001B[0m [%s]", e.Level.Color(), e.Level.String()[0:4], e.Time.Format(time.TimeOnly))
 
 	if e.TraceID != "" {
 		fmt.Fprintf(out, " \u001B[38;5;8m%s\u001B[0m", e.TraceID)
