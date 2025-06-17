@@ -20,6 +20,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql" // This is required to be blank import
+	"gorm.io/gorm"
 
 	"gofr.dev/pkg/gofr/config"
 	"gofr.dev/pkg/gofr/datasource/file"
@@ -65,6 +66,7 @@ type Container struct {
 	SurrealDB     SurrealDB
 	ArangoDB      ArangoDB
 	Elasticsearch Elasticsearch
+	Gorm          *gorm.DB
 
 	KVStore KVStore
 

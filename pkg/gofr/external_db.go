@@ -2,6 +2,7 @@ package gofr
 
 import (
 	"go.opentelemetry.io/otel"
+	"gorm.io/gorm"
 
 	"gofr.dev/pkg/gofr/container"
 	"gofr.dev/pkg/gofr/datasource/file"
@@ -193,4 +194,9 @@ func (a *App) AddElasticsearch(db container.ElasticsearchProvider) {
 	db.Connect()
 
 	a.container.Elasticsearch = db
+}
+
+// AddSQL sets the SQL datasource in the app's container.
+func (a *App) AddGorm(db *gorm.DB) {
+	a.container.Gorm = db
 }
