@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 func Test_newContainerSuccessWithLogger(t *testing.T) {
 	cfg := config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))
 
-	container := NewContainer(cfg)
+	container := NewContainer(cfg, nil)
 
 	assert.NotNil(t, container.Logger, "TEST, Failed.\nlogger initialization")
 }
@@ -39,7 +39,7 @@ func Test_newContainerDBInitializationFail(t *testing.T) {
 
 	cfg := config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))
 
-	container := NewContainer(cfg)
+	container := NewContainer(cfg, nil)
 
 	db := container.SQL.(*gofrSql.DB)
 	redis := container.Redis.(*gofrRedis.Redis)
@@ -64,7 +64,7 @@ func Test_newContainerPubSubInitializationFail(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		c := NewContainer(config.NewMockConfig(tc.configs))
+		c := NewContainer(config.NewMockConfig(tc.configs), nil)
 
 		assert.Nil(t, c.PubSub)
 	}
@@ -75,7 +75,7 @@ func TestContainer_MQTTInitialization_Default(t *testing.T) {
 		"PUBSUB_BACKEND": "MQTT",
 	}
 
-	c := NewContainer(config.NewMockConfig(configs))
+	c := NewContainer(config.NewMockConfig(configs), nil)
 
 	assert.NotNil(t, c.PubSub)
 	m, ok := c.PubSub.(*mqtt.MQTT)
@@ -151,7 +151,7 @@ func TestContainer_GetSubscriber(t *testing.T) {
 }
 
 func TestContainer_newContainerWithNilConfig(t *testing.T) {
-	container := NewContainer(nil)
+	container := NewContainer(nil, nil)
 
 	failureMsg := "TestContainer_newContainerWithNilConfig Failed!"
 
@@ -173,7 +173,7 @@ func TestContainer_Close(t *testing.T) {
 	mockRedis.EXPECT().Close().Return(nil)
 	sqlMock.ExpectClose()
 
-	c := NewContainer(config.NewMockConfig(nil))
+	c := NewContainer(config.NewMockConfig(nil), nil)
 	c.SQL = &sqlMockDB{mockDB, &expectedQuery{}, logging.NewLogger(logging.DEBUG)}
 	c.Redis = mockRedis
 	c.PubSub = mockPubSub
@@ -235,7 +235,7 @@ func TestContainer_CreateSetsAppNameAndVersion(t *testing.T) {
 		})
 
 		c := &Container{}
-		c.Create(cfg)
+		c.Create(cfg, nil)
 
 		assert.Equal(t, "test-app", c.GetAppName())
 		assert.Equal(t, "v1.0.0", c.GetAppVersion())
@@ -246,7 +246,7 @@ func TestContainer_CreateSetsAppNameAndVersion(t *testing.T) {
 		cfg := config.NewMockConfig(map[string]string{}) // No values provided
 
 		c := &Container{}
-		c.Create(cfg)
+		c.Create(cfg, nil)
 
 		assert.Equal(t, "gofr-app", c.GetAppName())
 		assert.Equal(t, "dev", c.GetAppVersion())

@@ -15,7 +15,7 @@ const (
 
 func main() {
 	// Create a new application
-	a := gofr.New()
+	a := gofr.New(nil)
 
 	// Add migrations to run
 	a.Migrate(migrations.All())

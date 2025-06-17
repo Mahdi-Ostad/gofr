@@ -17,7 +17,7 @@ const (
 
 func main() {
 	// Create a new application
-	a := gofr.New()
+	a := gofr.New(nil)
 
 	a.Metrics().NewCounter(transactionSuccessful, "used to track the count of successful transactions")
 	a.Metrics().NewUpDownCounter(totalCreditDaySales, "used to track the total credit sales in a day")

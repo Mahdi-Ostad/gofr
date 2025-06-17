@@ -237,7 +237,7 @@ func TestHandler_livelinessHandler(t *testing.T) {
 func TestHandler_healthHandler(t *testing.T) {
 	testutil.NewServerConfigs(t)
 
-	a := New()
+	a := New(nil)
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/.well-known/alive", r.URL.Path)

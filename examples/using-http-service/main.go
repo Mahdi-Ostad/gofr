@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	a := gofr.New()
+	a := gofr.New(nil)
 
 	// HTTP service with Circuit Breaker config given, uses custom health check
 	// either of circuit breaker or health can be used as well, as both implement service.Options interface.

@@ -342,7 +342,7 @@ func Test_GetAllHandler(t *testing.T) {
 		}
 		for i, tc := range tests {
 			t.Run(dc.dialect+" "+tc.desc, func(t *testing.T) {
-				c := container.NewContainer(nil)
+				c := container.NewContainer(nil, nil)
 				db, mock, _ := gofrSql.NewSQLMocksWithConfig(t, &gofrSql.DBConfig{Dialect: dc.dialect})
 				c.SQL = db
 
@@ -427,7 +427,7 @@ func Test_GetHandler(t *testing.T) {
 
 		for _, tc := range testCases {
 			t.Run(dc.dialect+" "+tc.desc, func(t *testing.T) {
-				c := container.NewContainer(nil)
+				c := container.NewContainer(nil, nil)
 				db, mock, _ := gofrSql.NewSQLMocksWithConfig(t, &gofrSql.DBConfig{Dialect: dc.dialect})
 				c.SQL = db
 
@@ -452,7 +452,7 @@ func Test_GetHandler(t *testing.T) {
 }
 
 func Test_UpdateHandler(t *testing.T) {
-	c := container.NewContainer(nil)
+	c := container.NewContainer(nil, nil)
 
 	e := entity{
 		name:       "userEntity",

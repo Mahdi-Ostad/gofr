@@ -22,7 +22,7 @@ var errWebSocketNotReady = errors.New("websocket server not ready")
 func Test_WebSocket_Success(t *testing.T) {
 	testutil.NewServerConfigs(t)
 
-	app := New()
+	app := New(nil)
 
 	server := httptest.NewServer(app.httpServer.router)
 	defer server.Close()
@@ -73,7 +73,7 @@ func Test_AddWSService(t *testing.T) {
 	port := testutil.GetFreePort(t)
 	t.Setenv("HTTP_PORT", fmt.Sprint(port))
 
-	app := New()
+	app := New(nil)
 
 	app.WebSocket("/ws", func(ctx *Context) (any, error) {
 		conn := ctx.GetConnectionFromContext(ctx)

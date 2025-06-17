@@ -19,7 +19,7 @@ func (u *user) GetAll(c *gofr.Context) (any, error) {
 
 func main() {
 	// Create a new application
-	a := gofr.New()
+	a := gofr.New(nil)
 
 	// Add migrations to run
 	a.Migrate(migrations.All())

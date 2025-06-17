@@ -45,7 +45,7 @@ func TestRun_ServerStartsListening(t *testing.T) {
 	router.RegisteredRoutes = &registeredMethods
 
 	// Create a mock container
-	c := container.NewContainer(getConfigs(t))
+	c := container.NewContainer(getConfigs(t), nil)
 
 	// Create an instance of httpServer
 	server := &httpServer{

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	app := gofr.New()
+	app := gofr.New(nil)
 	app.GET("/list", listHandler)
 	app.AddStaticFiles("/", "./static")
 	app.Run()

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	app := gofr.New()
+	app := gofr.New(nil)
 
 	// Create a gRPC client for the Hello service
 	helloGRPCClient, err := client.NewHelloGoFrClient(app.Config.Get("GRPC_SERVER_HOST"), app.Metrics())

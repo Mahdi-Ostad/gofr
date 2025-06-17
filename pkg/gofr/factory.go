@@ -14,10 +14,10 @@ import (
 )
 
 // New creates an HTTP Server Application and returns that App.
-func New() *App {
+func New(logger logging.Logger) *App {
 	app := &App{}
 	app.readConfig(false)
-	app.container = container.NewContainer(app.Config)
+	app.container = container.NewContainer(app.Config, logger)
 
 	app.initTracer()
 
@@ -76,12 +76,12 @@ func New() *App {
 func NewCMD() *App {
 	app := &App{}
 	app.readConfig(true)
-	app.container = container.NewContainer(nil)
+	app.container = container.NewContainer(nil, nil)
 	app.container.Logger = logging.NewFileLogger(app.Config.Get("CMD_LOGS_FILE"))
 	app.cmd = &cmd{
 		out: terminal.New(),
 	}
-	app.container.Create(app.Config)
+	app.container.Create(app.Config, nil)
 	app.initTracer()
 
 	return app

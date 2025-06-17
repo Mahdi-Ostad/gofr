@@ -65,7 +65,7 @@ func TestHTTPServerUsingRedis(t *testing.T) {
 func TestRedisSetHandler(t *testing.T) {
 	configs := testutil.NewServerConfigs(t)
 
-	a := gofr.New()
+	a := gofr.New(nil)
 	logger := logging.NewLogger(logging.DEBUG)
 	redisClient, mock := redismock.NewClientMock()
 
@@ -90,7 +90,7 @@ func TestRedisSetHandler(t *testing.T) {
 func TestRedisPipelineHandler(t *testing.T) {
 	configs := testutil.NewServerConfigs(t)
 
-	a := gofr.New()
+	a := gofr.New(nil)
 	logger := logging.NewLogger(logging.DEBUG)
 	redisClient, mock := redismock.NewClientMock()
 

@@ -212,7 +212,7 @@ func TestGRPC_ServerRun_WithInterceptorAndOptions(t *testing.T) {
 	}
 
 	cnf := testutil.NewServerConfigs(t)
-	app := New()
+	app := New(nil)
 
 	// Add the server options and interceptors to the app
 	app.AddGRPCServerOptions(

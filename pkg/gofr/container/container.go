@@ -73,7 +73,7 @@ type Container struct {
 	File file.FileSystem
 }
 
-func NewContainer(conf config.Config) *Container {
+func NewContainer(conf config.Config, logger logging.Logger) *Container {
 	if conf == nil {
 		return &Container{}
 	}
@@ -83,12 +83,12 @@ func NewContainer(conf config.Config) *Container {
 		appVersion: conf.GetOrDefault("APP_VERSION", "dev"),
 	}
 
-	c.Create(conf)
+	c.Create(conf, logger)
 
 	return c
 }
 
-func (c *Container) Create(conf config.Config) {
+func (c *Container) Create(conf config.Config, logger logging.Logger) {
 	if c.appName == "" {
 		c.appName = conf.GetOrDefault("APP_NAME", "gofr-app")
 	}
@@ -96,7 +96,9 @@ func (c *Container) Create(conf config.Config) {
 	if c.appVersion == "" {
 		c.appVersion = conf.GetOrDefault("APP_VERSION", "dev")
 	}
-
+	if logger != nil {
+		c.Logger = logger
+	}
 	if c.Logger == nil {
 		levelFetchConfig, err := strconv.Atoi(conf.GetOrDefault("REMOTE_LOG_FETCH_INTERVAL", "15"))
 		if err != nil {

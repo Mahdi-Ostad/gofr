@@ -37,7 +37,7 @@ func Test_newContextSuccess(t *testing.T) {
 	req := gofrHTTP.NewRequest(httpRequest)
 
 	ctx := newContext(nil, req, container.NewContainer(config.NewEnvFile("",
-		logging.NewMockLogger(logging.DEBUG))))
+		logging.NewMockLogger(logging.DEBUG)), nil))
 
 	body := map[string]string{}
 
@@ -85,7 +85,7 @@ func TestContext_WriteMessageToSocket(t *testing.T) {
 	port := testutil.GetFreePort(t)
 	t.Setenv("HTTP_PORT", fmt.Sprint(port))
 
-	app := New()
+	app := New(nil)
 
 	app.WebSocket("/ws", func(ctx *Context) (any, error) {
 		socketErr := ctx.WriteMessageToSocket("Hello! GoFr")
@@ -124,7 +124,7 @@ func TestContext_WriteMessageToService(t *testing.T) {
 	port := testutil.GetFreePort(t)
 	t.Setenv("HTTP_PORT", fmt.Sprint(port))
 
-	app := New()
+	app := New(nil)
 
 	// Start a WebSocket server
 	app.WebSocket("/ws", func(ctx *Context) (any, error) {

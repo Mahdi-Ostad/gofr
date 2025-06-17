@@ -15,7 +15,7 @@ var (
 const duration = 3
 
 func main() {
-	app := gofr.New()
+	app := gofr.New(nil)
 
 	// runs every second
 	app.AddCronJob("* * * * * *", "counter", count)

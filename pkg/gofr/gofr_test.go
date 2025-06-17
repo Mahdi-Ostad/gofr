@@ -63,7 +63,7 @@ func TestGoFr_isPortAvailable(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if !tt.isAvailable {
-				g := New()
+				g := New(nil)
 
 				go g.Run()
 				time.Sleep(100 * time.Millisecond)
@@ -112,7 +112,7 @@ func TestPingGoFr(t *testing.T) {
 
 			_ = testutil.NewServerConfigs(t)
 
-			a := New()
+			a := New(nil)
 
 			a.sendTelemetry(mockClient, tt.input)
 
@@ -148,7 +148,7 @@ func TestGofr_ServerRoutes(t *testing.T) {
 		{http.MethodPatch, "/patch", "Success", "content-type", "application/json"},
 	}
 
-	g := New()
+	g := New(nil)
 
 	g.GET("/hello", func(*Context) (any, error) {
 		return helloWorld, nil
@@ -202,7 +202,7 @@ func TestGofr_ServerRoutes(t *testing.T) {
 func TestGofr_ServerRun(t *testing.T) {
 	configs := testutil.NewServerConfigs(t)
 
-	g := New()
+	g := New(nil)
 
 	g.GET("/hello", func(*Context) (any, error) {
 		return helloWorld, nil
@@ -235,7 +235,7 @@ func Test_AddHTTPService(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 	}))
 
-	g := New()
+	g := New(nil)
 
 	g.AddHTTPService("test-service", server.URL)
 
@@ -255,7 +255,7 @@ func Test_AddDuplicateHTTPService(t *testing.T) {
 	t.Setenv("HTTP_PORT", strconv.Itoa(configs.HTTPPort))
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		a := New()
+		a := New(nil)
 
 		a.AddHTTPService("test-service", "http://localhost")
 		a.AddHTTPService("test-service", "http://google")
@@ -267,7 +267,7 @@ func Test_AddDuplicateHTTPService(t *testing.T) {
 func TestApp_Metrics(t *testing.T) {
 	testutil.NewServerConfigs(t)
 
-	app := New()
+	app := New(nil)
 
 	assert.NotNil(t, app.Metrics())
 }
@@ -275,7 +275,7 @@ func TestApp_Metrics(t *testing.T) {
 func TestApp_AddAndGetHTTPService(t *testing.T) {
 	testutil.NewServerConfigs(t)
 
-	app := New()
+	app := New(nil)
 
 	app.AddHTTPService("test-service", "http://test")
 
@@ -288,7 +288,7 @@ func TestApp_MigrateInvalidKeys(t *testing.T) {
 	logs := testutil.StderrOutputForFunc(func() {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 		app.Migrate(map[int64]migration.Migrate{1: {}})
 	})
 
@@ -299,7 +299,7 @@ func TestApp_MigratePanicRecovery(t *testing.T) {
 	logs := testutil.StderrOutputForFunc(func() {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 
 		app.container.PubSub = &container.MockPubSub{}
 
@@ -354,7 +354,7 @@ func TestEnableBasicAuthWithFunc(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 	}))
 
-	c := container.NewContainer(config.NewMockConfig(nil))
+	c := container.NewContainer(config.NewMockConfig(nil), nil)
 
 	// Initialize a new App instance
 	a := &App{
@@ -560,7 +560,7 @@ func Test_EnableBasicAuthWithValidator(t *testing.T) {
 func Test_AddRESTHandlers(t *testing.T) {
 	testutil.NewServerConfigs(t)
 
-	app := New()
+	app := New(nil)
 
 	type user struct {
 		ID   int
@@ -686,7 +686,7 @@ func Test_UseMiddleware(t *testing.T) {
 		})
 	}
 
-	c := container.NewContainer(config.NewMockConfig(nil))
+	c := container.NewContainer(config.NewMockConfig(nil), nil)
 
 	app := &App{
 		httpServer: &httpServer{
@@ -736,7 +736,7 @@ func TestUseMiddlewareWithContainer(t *testing.T) {
 	port := testutil.GetFreePort(t)
 
 	// Initialize the mock container
-	mockContainer := container.NewContainer(config.NewMockConfig(nil))
+	mockContainer := container.NewContainer(config.NewMockConfig(nil), nil)
 
 	// Create a simple handler to test middleware functionality
 	handler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
@@ -853,7 +853,7 @@ func Test_SwaggerEndpoints(t *testing.T) {
 		}
 	}()
 
-	app := New()
+	app := New(nil)
 	app.httpRegistered = true
 	app.httpServer.port = configs.HTTPPort
 
@@ -927,7 +927,7 @@ func setupTestEnvironment(t *testing.T) (host string, htmlContent []byte) {
 
 	createPublicDirectory(t, "testdir", htmlContent)
 
-	app := New()
+	app := New(nil)
 
 	app.AddStaticFiles("gofrTest", "testdir")
 
@@ -1029,7 +1029,7 @@ func TestStaticHandlerInvalidFilePath(t *testing.T) {
 	logs := testutil.StderrOutputForFunc(func() {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 
 		app.AddStaticFiles("gofrTest", ".//,.!@#$%^&")
 	})
@@ -1068,7 +1068,7 @@ func Test_Shutdown(t *testing.T) {
 	logs := testutil.StdoutOutputForFunc(func() {
 		testutil.NewServerConfigs(t)
 
-		g := New()
+		g := New(nil)
 
 		g.GET("/hello", func(*Context) (any, error) {
 			return helloWorld, nil
@@ -1089,7 +1089,7 @@ func TestApp_SubscriberInitialize(t *testing.T) {
 	t.Run("subscriber is initialized", func(t *testing.T) {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 
 		mockContainer := container.Container{
 			Logger: logging.NewLogger(logging.ERROR),
@@ -1111,7 +1111,7 @@ func TestApp_SubscriberInitialize(t *testing.T) {
 	t.Run("subscriber is not initialized", func(t *testing.T) {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 		app.Subscribe("Hello", func(*Context) error {
 			// this is a test subscriber
 			return nil
@@ -1127,7 +1127,7 @@ func TestApp_Subscribe(t *testing.T) {
 	t.Run("topic is empty", func(t *testing.T) {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 
 		mockContainer := container.Container{
 			Logger: logging.NewLogger(logging.ERROR),
@@ -1146,7 +1146,7 @@ func TestApp_Subscribe(t *testing.T) {
 	t.Run("handler is nil", func(t *testing.T) {
 		testutil.NewServerConfigs(t)
 
-		app := New()
+		app := New(nil)
 
 		mockContainer := container.Container{
 			Logger: logging.NewLogger(logging.ERROR),

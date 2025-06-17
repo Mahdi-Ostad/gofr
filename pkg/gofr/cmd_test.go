@@ -28,7 +28,7 @@ func Test_Run_SuccessCallRegisteredArgument(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile(".env", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile(".env", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "handler called")
@@ -48,7 +48,7 @@ func Test_Run_SuccessSkipEmptySpaceAndMatchCommandWithSpace(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "handler called")
@@ -71,7 +71,7 @@ func Test_Run_SuccessCommandWithMultipleParameters(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "handler called")
@@ -103,7 +103,7 @@ func Test_Run_SuccessRouteWithSpecialCharacters(t *testing.T) {
 		)
 
 		logs := testutil.StdoutOutputForFunc(func() {
-			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 		})
 
 		assert.Contains(t, logs, "handler called", "TEST[%d] Failed.\n %s", i, tc.desc)
@@ -133,7 +133,7 @@ func Test_Run_ErrorRouteWithSpecialCharacters(t *testing.T) {
 		)
 
 		logs := testutil.StderrOutputForFunc(func() {
-			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 		})
 
 		assert.NotContains(t, logs, "handler called", "TEST[%d] Failed.\n %s", i, tc.desc)
@@ -157,7 +157,7 @@ func Test_Run_ErrorParamNotReadWithoutHyphen(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "handler called")
@@ -169,7 +169,7 @@ func Test_Run_ErrorNotARegisteredCommand(t *testing.T) {
 	c := cmd{}
 
 	logs := testutil.StderrOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "No Command Found!")
@@ -189,7 +189,7 @@ func Test_Run_ErrorWhenOnlyParamAreGiven(t *testing.T) {
 	)
 
 	logs := testutil.StderrOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "No Command Found!")
@@ -207,7 +207,7 @@ func Test_Run_ErrorRouteRegisteredButNilHandler(t *testing.T) {
 	)
 
 	logs := testutil.StderrOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "No Command Found!")
@@ -221,7 +221,7 @@ func Test_Run_ErrorNoArgumentGiven(t *testing.T) {
 
 	out := testutil.StdoutOutputForFunc(func() {
 		errlog = testutil.StderrOutputForFunc(func() {
-			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 		})
 	})
 
@@ -243,7 +243,7 @@ func Test_Run_SuccessCallInvalidHyphens(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "handler called")
@@ -264,7 +264,7 @@ func Test_Run_HelpCommand(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "Available commands:")
@@ -287,7 +287,7 @@ func Test_Run_HelpCommandLong(t *testing.T) {
 	)
 
 	logs := testutil.StdoutOutputForFunc(func() {
-		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+		c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 	})
 
 	assert.Contains(t, logs, "Available commands:")
@@ -312,7 +312,7 @@ func Test_Run_UnknownCommandShowsHelp(t *testing.T) {
 
 	logs := testutil.StdoutOutputForFunc(func() {
 		errLogs = testutil.StderrOutputForFunc(func() {
-			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG))))
+			c.Run(container.NewContainer(config.NewEnvFile("", logging.NewMockLogger(logging.DEBUG)), nil))
 		})
 	})
 
@@ -341,7 +341,7 @@ func Test_Run_handler_help(t *testing.T) {
 			return "Hello", nil
 		}, AddHelp("this a helper string for hello sub command"))
 
-		c.Run(container.NewContainer(config.NewMockConfig(map[string]string{})))
+		c.Run(container.NewContainer(config.NewMockConfig(map[string]string{}), nil))
 	})
 
 	// check that only help for the hello subcommand is printed

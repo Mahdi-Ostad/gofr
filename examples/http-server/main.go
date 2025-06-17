@@ -16,7 +16,7 @@ import (
 
 func main() {
 	// Create a new application
-	a := gofr.New()
+	a := gofr.New(nil)
 
 	//HTTP service with default health check endpoint
 	a.AddHTTPService("anotherService", "http://localhost:9000")

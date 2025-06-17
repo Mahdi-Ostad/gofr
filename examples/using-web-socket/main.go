@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	app := gofr.New()
+	app := gofr.New(nil)
 
 	app.WebSocket("/ws", WSHandler)
 

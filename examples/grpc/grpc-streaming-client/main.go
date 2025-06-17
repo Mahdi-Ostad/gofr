@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	app := gofr.New()
+	app := gofr.New(nil)
 
 	// Create a gRPC client for the Chat Streaming service
 	chatClient, err := client.NewChatServiceGoFrClient(app.Config.Get("GRPC_SERVER_HOST"), app.Metrics())

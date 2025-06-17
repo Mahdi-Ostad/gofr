@@ -21,7 +21,7 @@ func TestRouter(t *testing.T) {
 	port := testutil.GetFreePort(t)
 
 	cfg := map[string]string{"HTTP_PORT": fmt.Sprint(port), "LOG_LEVEL": "INFO"}
-	c := container.NewContainer(config.NewMockConfig(cfg))
+	c := container.NewContainer(config.NewMockConfig(cfg), nil)
 
 	c.Metrics().NewCounter("test-counter", "test")
 
@@ -46,7 +46,7 @@ func TestRouterWithMiddleware(t *testing.T) {
 	port := testutil.GetFreePort(t)
 
 	cfg := map[string]string{"HTTP_PORT": fmt.Sprint(port), "LOG_LEVEL": "INFO"}
-	c := container.NewContainer(config.NewMockConfig(cfg))
+	c := container.NewContainer(config.NewMockConfig(cfg), nil)
 
 	c.Metrics().NewCounter("test-counter", "test")
 

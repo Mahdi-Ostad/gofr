@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	app := gofr.New()
+	app := gofr.New(nil)
 
 	app.POST("/upload", UploadHandler)
 

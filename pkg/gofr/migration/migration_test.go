@@ -26,7 +26,7 @@ func TestMigration_InvalidKeys(t *testing.T) {
 
 func TestMigration_NoDatasource(t *testing.T) {
 	logs := testutil.StderrOutputForFunc(func() {
-		c := container.NewContainer(nil)
+		c := container.NewContainer(nil, nil)
 		c.Logger = logging.NewLogger(logging.DEBUG)
 
 		Run(map[int64]Migrate{

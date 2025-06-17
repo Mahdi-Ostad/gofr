@@ -163,7 +163,7 @@ func TestRedisHandler(t *testing.T) {
 	t.Setenv("METRICS_PORT", strconv.Itoa(metricsPort))
 	t.Setenv("HTTP_PORT", strconv.Itoa(httpPort))
 
-	a := gofr.New()
+	a := gofr.New(nil)
 	logger := logging.NewLogger(logging.DEBUG)
 	redisClient, mock := redismock.NewClientMock()
 

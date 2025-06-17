@@ -10,7 +10,7 @@ const redisExpiryTime = 5
 
 func main() {
 	// Create a new application
-	app := gofr.New()
+	app := gofr.New(nil)
 
 	// Add routes for Redis operations
 	app.GET("/redis/{key}", RedisGetHandler)
