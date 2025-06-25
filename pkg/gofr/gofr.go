@@ -48,6 +48,10 @@ type App struct {
 	subscriptionManager SubscriptionManager
 }
 
+func (a *App) GetContainer() *container.Container {
+	return a.container
+}
+
 // Shutdown stops the service(s) and close the application.
 // It shuts down the HTTP, gRPC, Metrics servers and closes the container's active connections to datasources.
 func (a *App) Shutdown(ctx context.Context) error {
